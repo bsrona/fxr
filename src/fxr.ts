@@ -9950,6 +9950,12 @@ export interface FXRSerializeOptions {
    * prevent actions from disappearing entirely from the output.
    */
   requireActionDefinition?: boolean
+  /**
+   * If enabled, states are serialized as structured condition objects instead
+   * of human-readable expression strings. This can be useful if you want to
+   * inspect or post-process the raw state condition data.
+   */
+  stateAsStruct?: boolean
 }
 
 /**
@@ -10643,7 +10649,7 @@ class FXR {
   clone(): FXR {
     return new FXR(
       this.id,
-      this.states.map(e => State.from(e.toJSON())),
+      this.states.map(e => new State(e.conditions.map(c => c.clone()))),
       this.root.clone(),
     )
   }
@@ -10774,6 +10780,17 @@ class State {
   toJSON() { return this.serialize() }
 
   serialize(options?: FXRSerializeOptions) {
+    if (options?.stateAsStruct) {
+      return this.conditions.map(c => ({
+        operator: c.operator,
+        unk1: c.unk1,
+        nextState: c.nextState,
+        leftOperandType: c.leftOperandType,
+        leftOperandValue: c.leftOperandValue,
+        rightOperandType: c.rightOperandType,
+        rightOperandValue: c.rightOperandValue,
+      }))
+    }
     if (this.conditions.length === 0) {
       return ''
     }

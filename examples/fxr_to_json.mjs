@@ -10,7 +10,7 @@ async function main() {
   }
 
   const fxr = await FXR.read(inputPath, Game.Sekiro)
-  const json = fxr.toJSON()
+  const json = fxr.serialize({ stateAsStruct: true })
   const jsonString = JSON.stringify(json, null, 2)
 
   if (outputPath) {
