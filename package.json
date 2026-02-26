@@ -20,7 +20,9 @@
     "build:yaml": "node build/run.js",
     "build:sort-props": "node build/sort_props.js",
     "build:ts": "npx tsc --p tsconfig-build.json",
+    "build:cjs": "npx tsc --p tsconfig-cjs.json",
     "build": "npm-run-all build:yaml build:ts",
+    "build:exe": "npm run build:cjs && pkg cli/fxr-to-json-cjs.js --targets node18-win-x64 --output fxr-to-json.exe",
     "watch:dist": "npx tsc --p tsconfig-build.json --watch",
     "watch:src": "node build/watch.js",
     "watch": "npm-run-all --parallel watch:*",
@@ -53,9 +55,15 @@
     "chokidar": "^5.0.0",
     "fabulous-json": "^1.0.3",
     "npm-run-all2": "^8.0.4",
+    "pkg": "^5.8.1",
     "typedoc": "^0.28.17",
     "typedoc-github-theme": "^0.3.1",
     "typescript": "^5.9.3",
     "yaml": "^2.8.2"
+  },
+  "pkg": {
+    "assets": [
+      "dist/cjs/**/*"
+    ]
   }
 }
