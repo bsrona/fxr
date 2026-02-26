@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "declaration": false,
+    "sourceMap": false,
+    "libReplacement": false,
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "outDir": "dist/cjs"
+  },
+  "files": ["dist/fxr.ts"]
+}
