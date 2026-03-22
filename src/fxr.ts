@@ -10781,15 +10781,9 @@ class State {
 
   serialize(options?: FXRSerializeOptions) {
     if (options?.stateAsStruct) {
-      return this.conditions.map(c => ({
-        operator: c.operator,
-        unk1: c.unk1,
-        nextState: c.nextState,
-        leftOperandType: c.leftOperandType,
-        leftOperandValue: c.leftOperandValue,
-        rightOperandType: c.rightOperandType,
-        rightOperandValue: c.rightOperandValue,
-      }))
+      return {
+        conditions : this.conditions.map(state => state.serialize(options))
+      }
     }
     if (this.conditions.length === 0) {
       return ''
@@ -11031,6 +11025,17 @@ class StateCondition {
     return this.clone().sortOperands().#toString()
   }
 
+  serialize(options?: FXRSerializeOptions) {
+    return {
+      operator: this.operator,
+      unk1: this.unk1,
+      nextState: this.nextState,
+      leftOperandType: this.leftOperandType,
+      leftOperandValue: this.leftOperandValue,
+      rightOperandType: this.rightOperandType,
+      rightOperandValue: this.rightOperandValue,
+    }
+  }
 }
 
 //#region Node
